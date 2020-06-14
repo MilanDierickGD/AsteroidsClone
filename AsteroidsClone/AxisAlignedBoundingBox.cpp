@@ -3,11 +3,11 @@
 
 AxisAlignedBoundingBox::AxisAlignedBoundingBox()
 {
-	center = Vector2D<float>(0.0f, 0.0f);
-	halfSize = Vector2D<float>(0.0f, 0.0f);
+	center = Vector2D<double>(0.0f, 0.0f);
+	halfSize = Vector2D<double>(0.0f, 0.0f);
 }
 
-AxisAlignedBoundingBox::AxisAlignedBoundingBox(const Vector2D<float>& center, const Vector2D<float>& halfSize):
+AxisAlignedBoundingBox::AxisAlignedBoundingBox(const Vector2D<double>& center, const Vector2D<double>& halfSize):
 	center(center),
 	halfSize(halfSize)
 {

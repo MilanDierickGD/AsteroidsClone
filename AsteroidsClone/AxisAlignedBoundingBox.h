@@ -4,10 +4,10 @@
 struct AxisAlignedBoundingBox
 {
 	AxisAlignedBoundingBox();
-	AxisAlignedBoundingBox(const Vector2D<float>& center, const Vector2D<float>& halfSize);
+	AxisAlignedBoundingBox(const Vector2D<double>& center, const Vector2D<double>& halfSize);
 
 	bool Overlaps(AxisAlignedBoundingBox other) const;
 	
-	Vector2D<float> center;
-	Vector2D<float> halfSize;
+	Vector2D<double> center;
+	Vector2D<double> halfSize;
 };

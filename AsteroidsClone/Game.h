@@ -1,4 +1,7 @@
 #pragma once
+#include <memory>
+
+#include "ObjectManager.h"
 #include "Player.h"
 
 class Game
@@ -24,7 +27,6 @@ public:
 private:
 	// DATA MEMBERS
 	const Window m_Window;
-	Player m_Player;
 
 	// FUNCTIONS
 	void Initialize( );

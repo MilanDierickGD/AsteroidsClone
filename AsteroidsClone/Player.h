@@ -1,18 +1,21 @@
 ﻿#pragma once
+#include <memory>
 #include <SDL_events.h>
 
 #include "Collidable.h"
 #include "PhysicsObject.h"
 #include "Texture.h"
 
-class Player final : Collidable, PhysicsObject
+class ObjectManager;
+
+class Player final : public Collidable, public PhysicsObject
 {
 public:
 	explicit Player(std::string imagePath, int remainingLives);
 
-	void OnOverlap(Collidable other) override;
-	void Update(float deltaTime);
-	void UpdatePhysics(float deltaTime) override;
+	void OnOverlap(Collidable* other) override;
+	void Update(float deltaTime) override;
+	void Draw() override;
 	
 	// Simple event propagation from the main game loop
 	void ProcessKeyDownEvent(const SDL_KeyboardEvent& e);
@@ -21,7 +24,10 @@ public:
 	void ProcessMouseDownEvent(const SDL_MouseButtonEvent& e);
 	void ProcessMouseUpEvent(const SDL_MouseButtonEvent& e);
 
-	private:
+	void SpawnBullet();
+	
+private:
 	Texture m_PlayerTexture;
+	double m_Rotation;
 	int m_RemainingLives;
 };

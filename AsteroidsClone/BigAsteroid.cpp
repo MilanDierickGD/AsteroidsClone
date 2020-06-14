@@ -1,0 +1,80 @@
+﻿#include "pch.h"
+#include "BigAsteroid.h"
+
+#include "MediumAsteroid.h"
+
+BigAsteroid::BigAsteroid(const std::string imagePath)
+{
+	m_BigAsteroidTexture = Texture(imagePath);
+	SetCollider2D(AxisAlignedBoundingBox(Vector2D<double>(0.0, 0.0),
+										Vector2D<double>(m_BigAsteroidTexture.GetWidth() / 2,
+														m_BigAsteroidTexture.GetHeight() / 2)));
+
+	SetCollidableType(BigAsteroidType);
+	SetDisabled(false);
+	SpawnAsteroid();
+}
+
+void BigAsteroid::Update(const float deltaTime)
+{
+	UpdatePhysics(deltaTime);
+	GetCollider2D().center.x = GetEntityPosition().x + GetCollider2D().halfSize.x;
+	GetCollider2D().center.y = GetEntityPosition().y + GetCollider2D().halfSize.y;
+}
+
+void BigAsteroid::Draw()
+{
+	// TODO: Make the asteroid spin
+	m_BigAsteroidTexture.Draw(Point2D<float>(static_cast<float>(GetEntityPosition().x),
+										static_cast<float>(GetEntityPosition().y)));
+}
+
+void BigAsteroid::OnOverlap(Collidable* other)
+{
+	if (other->GetCollidableType() == BulletType)
+	{
+		Split();
+		SetDisabled(true);
+	}
+}
+
+void BigAsteroid::Split()
+{
+	MediumAsteroid* mediumAsteroid1 = new MediumAsteroid("Resources/MediumAsteroidTexture.png",
+													GetEntityPosition());
+	MediumAsteroid* mediumAsteroid2 = new MediumAsteroid("Resources/MediumAsteroidTexture.png",
+													GetEntityPosition());
+	ObjectManager::GetInstance().AddCollidable(mediumAsteroid1);
+	ObjectManager::GetInstance().AddCollidable(mediumAsteroid2);
+}
+
+void BigAsteroid::SpawnAsteroid()
+{
+	const int spawnFace = std::rand() % 4;
+
+	switch (spawnFace)
+	{
+		case 0:
+			SetEntityPosition(Vector2D<double>(std::rand() % 1920, 1280.0));
+			GetCollider2D().center = GetEntityPosition();
+			SetObjectMovement(Vector2D<double>(std::rand() % 100 - 50, std::rand() % 100 - 50));
+			break;
+		case 1:
+			SetEntityPosition(Vector2D<double>(0.0, std::rand() % 1280));
+			GetCollider2D().center = GetEntityPosition();
+			SetObjectMovement(Vector2D<double>(std::rand() % 100 - 50, std::rand() % 100 - 50));
+			break;
+		case 2:
+			SetEntityPosition(Vector2D<double>(std::rand() % 1920, 0.0));
+			GetCollider2D().center = GetEntityPosition();
+			SetObjectMovement(Vector2D<double>(std::rand() % 100 - 50, std::rand() % 100 - 50));
+			break;
+		case 3:
+			SetEntityPosition(Vector2D<double>(1920.0, std::rand() % 1280));
+			GetCollider2D().center = GetEntityPosition();
+			SetObjectMovement(Vector2D<double>(std::rand() % 100 - 50, std::rand() % 100 - 50));
+			break;
+		default:
+			break;
+	}
+}

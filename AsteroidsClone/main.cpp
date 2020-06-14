@@ -11,7 +11,7 @@ int main( int argc, char *argv[] )
 	{
 		StartHeapControl();
 
-		Core core{ Window{ "Project name - Name, first name - 1DAEXX", 640.0f, 360.0f } };
+		Core core{ Window{ "Project name - Name, first name - 1DAEXX", 1920.0f, 1080.0f } };
 		core.Run();
 	}
 	DumpMemoryLeaks();
@@ -23,7 +23,7 @@ void StartHeapControl()
 {
 #if defined(DEBUG) | defined(_DEBUG)
 	// Notify user if heap is corrupt
-	HeapSetInformation(NULL, HeapEnableTerminationOnCorruption, NULL, 0);
+	HeapSetInformation(nullptr, HeapEnableTerminationOnCorruption, nullptr, 0);
 
 	// Report detected leaks when the program exits
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);

@@ -8,6 +8,9 @@ public:
 	Entity();
 	explicit Entity(const Vector2D<double>& entityPosition);
 
+	virtual void Update(float deltaTime);
+	virtual void Draw();
+	
 	Vector2D<double>& GetEntityPosition();
 	void SetEntityPosition(const Vector2D<double>& entityPosition);
 	

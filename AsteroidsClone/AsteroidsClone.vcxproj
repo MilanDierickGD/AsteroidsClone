@@ -94,6 +94,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -152,6 +153,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AxisAlignedBoundingBox.cpp" />
+    <ClCompile Include="BigAsteroid.cpp" />
+    <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="BulletSpawner.cpp" />
     <ClCompile Include="Collidable.cpp" />
     <ClCompile Include="Core.cpp" />
@@ -159,33 +162,45 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Matrix2x3.cpp" />
+    <ClCompile Include="MediumAsteroid.cpp" />
+    <ClCompile Include="ObjectManager.cpp" />
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="PhysicsObject.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="SimpleEnemy.cpp" />
+    <ClCompile Include="SmallAsteroid.cpp" />
     <ClCompile Include="SoundEffect.cpp" />
     <ClCompile Include="SoundStream.cpp" />
     <ClCompile Include="structs.cpp" />
     <ClCompile Include="SVGParser.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="ThreatSpawner.cpp" />
     <ClCompile Include="utils.cpp" />
     <ClCompile Include="Vector2f.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AxisAlignedBoundingBox.h" />
+    <ClInclude Include="BigAsteroid.h" />
+    <ClInclude Include="Bullet.h" />
     <ClInclude Include="BulletSpawner.h" />
     <ClInclude Include="Collidable.h" />
     <ClInclude Include="Core.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Matrix2x3.h" />
+    <ClInclude Include="MediumAsteroid.h" />
+    <ClInclude Include="ObjectManager.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="PhysicsObject.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="SimpleEnemy.h" />
+    <ClInclude Include="SmallAsteroid.h" />
     <ClInclude Include="SoundEffect.h" />
     <ClInclude Include="SoundStream.h" />
     <ClInclude Include="structs.h" />
     <ClInclude Include="SVGParser.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="ThreatSpawner.h" />
     <ClInclude Include="utils.h" />
     <ClInclude Include="Vector2D.h" />
     <ClInclude Include="Vector2f.h" />
@@ -193,6 +208,23 @@
   <ItemGroup>
     <None Include="SDLWin32.props" />
     <None Include="SDLx64.props" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\BigAsteroidTexture.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\BulletTexture.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\MediumAsteroidTexture.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\PlayerTexture.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\SmallAsteroidTexture.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
