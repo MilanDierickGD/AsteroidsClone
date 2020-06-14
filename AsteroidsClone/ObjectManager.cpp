@@ -1,12 +1,9 @@
 ﻿#include "pch.h"
 #include "ObjectManager.h"
+#include "BigAsteroid.h"
 
 #include <algorithm>
 #include <iterator>
-
-
-
-#include "BigAsteroid.h"
 
 ObjectManager::ObjectManager() : m_Player(Player("Resources/PlayerTexture.png", 3))
 {
@@ -50,9 +47,14 @@ void ObjectManager::Update(const float deltaTime)
 {
 	m_Player.Update(deltaTime);
 
-	for (std::vector<Collidable*>::value_type collidable : m_Collidables)
+	// for (std::vector<Collidable*>::value_type collidable : m_Collidables)
+	// {
+	// 	collidable->Update(deltaTime);
+	// }
+
+	for (size_t counter = 0; counter < m_Collidables.size(); ++counter)
 	{
-		collidable->Update(deltaTime);
+		m_Collidables[counter]->Update(deltaTime);
 	}
 
 	CheckAllForBounds();
@@ -73,12 +75,18 @@ void ObjectManager::Draw()
 void ObjectManager::CheckAllCollisions()
 {
 	const size_t size = m_Collidables.size();
-	for (size_t x = 0; x < size; ++x)
+
+	for (size_t counter = 0; counter < size; ++counter)
 	{
-		for	(size_t y = 0; y < size; ++y)
+		m_Player.Overlaps(m_Collidables[counter]);
+	}
+	
+	for (size_t counter1 = 0; counter1 < size; ++counter1)
+	{
+		for	(size_t counter2 = 0; counter2 < size; ++counter2)
 		{
-			if (x == y) continue;
-			m_Collidables[x]->Overlaps(m_Collidables[y]);
+			if (counter1 == counter2) continue;
+			m_Collidables[counter1]->Overlaps(m_Collidables[counter2]);
 		}
 	}
 }
@@ -87,48 +95,20 @@ void ObjectManager::CheckObjectForBounds(Collidable& collidable)
 {
 	if (collidable.GetEntityPosition().x < 0.0)
 	{
-		if (collidable.GetCollidableType() == BulletType)
-		{
-			collidable.SetDisabled(true);
-		}
-		else
-		{
-			collidable.GetEntityPosition().x = 1920.0;
-		}
+		collidable.GetEntityPosition().x = 1280.0;
 	}
-	else if (collidable.GetEntityPosition().x > 1920.0)
+	else if (collidable.GetEntityPosition().x > 1280.0)
 	{
-		if (collidable.GetCollidableType() == BulletType)
-		{
-			collidable.SetDisabled(true);
-		}
-		else
-		{
-			collidable.GetEntityPosition().x = 0.0;
-		}
+		collidable.GetEntityPosition().x = 0.0;
 	}
 
 	if (collidable.GetEntityPosition().y < 0.0)
 	{
-		if (collidable.GetCollidableType() == BulletType)
-		{
-			collidable.SetDisabled(true);
-		}
-		else
-		{
-			collidable.GetEntityPosition().y = 1080.0;
-		}
+		collidable.GetEntityPosition().y = 800.0;
 	}
-	else if (collidable.GetEntityPosition().y > 1080.0)
+	else if (collidable.GetEntityPosition().y > 800.0)
 	{
-		if (collidable.GetCollidableType() == BulletType)
-		{
-			collidable.SetDisabled(true);
-		}
-		else
-		{
-			collidable.GetEntityPosition().y = 0.0;
-		}
+		collidable.GetEntityPosition().y = 0.0;
 	}
 }
 

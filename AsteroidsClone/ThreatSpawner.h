@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include <chrono>
 
 class ThreatSpawner
 {
@@ -11,14 +12,19 @@ public:
 	static ThreatSpawner& GetInstance();
 	
 	void Update();
+	void ResetThreats();
 	
 private:
 	int m_StaticThreats; // Threats that have predicable movement and don't perform special actions
 	int m_DynamicThreats; // Threats that move around faster than usual and shoot bullets
+	std::chrono::steady_clock::time_point m_WaveSpawnCooldown;
+	std::chrono::steady_clock::time_point m_EnemySpawningTimer;
+	bool m_SpawningNewWave;
 
 	ThreatSpawner();
 	~ThreatSpawner();
 	
 	void CountThreats();
-	void SpawnWave() const;
+	void TrySpawnNewWave();
+	void TrySpawnNewEnemy();
 };

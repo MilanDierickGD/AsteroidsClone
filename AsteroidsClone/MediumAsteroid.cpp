@@ -33,10 +33,19 @@ void MediumAsteroid::Draw()
 
 void MediumAsteroid::OnOverlap(Collidable* other)
 {
-	if (other->GetCollidableType() == BulletType)
+	switch (other->GetCollidableType())
 	{
+	case EnemyBulletType: case EnemyType:
 		Split();
 		SetDisabled(true);
+		break;
+	case PlayerBulletType:
+		Split();
+        SetDisabled(true);
+		//ScoreManager::GetInstance().AddPoints(200);
+		break;
+	default:
+        break;
 	}
 }
 

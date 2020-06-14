@@ -23,11 +23,12 @@ public:
 	void ProcessMouseMotionEvent(const SDL_MouseMotionEvent& e);
 	void ProcessMouseDownEvent(const SDL_MouseButtonEvent& e);
 	void ProcessMouseUpEvent(const SDL_MouseButtonEvent& e);
-
-	void SpawnBullet();
 	
 private:
 	Texture m_PlayerTexture;
 	double m_Rotation;
 	int m_RemainingLives;
+
+	void SpawnBullet();
+	void Die();
 };

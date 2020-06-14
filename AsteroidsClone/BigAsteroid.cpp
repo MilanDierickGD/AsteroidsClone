@@ -1,6 +1,8 @@
 ﻿#include "pch.h"
 #include "BigAsteroid.h"
 
+
+#include "Collidable.h"
 #include "MediumAsteroid.h"
 
 BigAsteroid::BigAsteroid(const std::string imagePath)
@@ -31,10 +33,19 @@ void BigAsteroid::Draw()
 
 void BigAsteroid::OnOverlap(Collidable* other)
 {
-	if (other->GetCollidableType() == BulletType)
+	switch (other->GetCollidableType())
 	{
+		case EnemyBulletType: case EnemyType:
 		Split();
-		SetDisabled(true);
+        SetDisabled(true);
+		break;
+	case PlayerBulletType:
+		Split();
+        SetDisabled(true);
+		//ScoreManager::GetInstance().AddPoints(200);
+		break;
+	default:
+        break;
 	}
 }
 
@@ -55,22 +66,22 @@ void BigAsteroid::SpawnAsteroid()
 	switch (spawnFace)
 	{
 		case 0:
-			SetEntityPosition(Vector2D<double>(std::rand() % 1920, 1280.0));
+			SetEntityPosition(Vector2D<double>(std::rand() % 1280 , 800.0));
 			GetCollider2D().center = GetEntityPosition();
 			SetObjectMovement(Vector2D<double>(std::rand() % 100 - 50, std::rand() % 100 - 50));
 			break;
 		case 1:
-			SetEntityPosition(Vector2D<double>(0.0, std::rand() % 1280));
+			SetEntityPosition(Vector2D<double>(0.0, std::rand() % 800));
 			GetCollider2D().center = GetEntityPosition();
 			SetObjectMovement(Vector2D<double>(std::rand() % 100 - 50, std::rand() % 100 - 50));
 			break;
 		case 2:
-			SetEntityPosition(Vector2D<double>(std::rand() % 1920, 0.0));
+			SetEntityPosition(Vector2D<double>(std::rand() % 1280 , 0.0));
 			GetCollider2D().center = GetEntityPosition();
 			SetObjectMovement(Vector2D<double>(std::rand() % 100 - 50, std::rand() % 100 - 50));
 			break;
 		case 3:
-			SetEntityPosition(Vector2D<double>(1920.0, std::rand() % 1280));
+			SetEntityPosition(Vector2D<double>(1280.0, std::rand() % 800));
 			GetCollider2D().center = GetEntityPosition();
 			SetObjectMovement(Vector2D<double>(std::rand() % 100 - 50, std::rand() % 100 - 50));
 			break;

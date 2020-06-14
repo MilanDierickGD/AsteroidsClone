@@ -5,19 +5,19 @@
 #include "PhysicsObject.h"
 #include "Texture.h"
 
-class SimpleEnemy final : public Collidable, public PhysicsObject
+class SuicidalEnemy final : public Collidable, public PhysicsObject
 {
 public:
-	explicit SimpleEnemy(std::string imagePath);
-
+    explicit SuicidalEnemy(std::string imagePath);
+	
 	void Update(float deltaTime) override;
 	void Draw() override;
 	void OnOverlap(Collidable* other) override;
+	void ApplyForceTowardsPlayer(float deltaTime);
 	
 private:
-	void SpawnSimpleEnemy();
-	void SpawnBullet();
+    void SpawnSimpleEnemy();
 
-	Texture m_SimpleEnemyTexture;
+	Texture m_SuicidalEnemyTexture;
 	std::chrono::steady_clock::time_point m_BulletTimer;
 };

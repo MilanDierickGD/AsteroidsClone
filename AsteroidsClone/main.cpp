@@ -11,7 +11,7 @@ int main( int argc, char *argv[] )
 	{
 		StartHeapControl();
 
-		Core core{ Window{ "Project name - Name, first name - 1DAEXX", 1920.0f, 1080.0f } };
+		Core core{ Window{ "Project name - Name, first name - 1DAEXX", 1280.0f, 800.0f } };
 		core.Run();
 	}
 	DumpMemoryLeaks();

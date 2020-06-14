@@ -30,9 +30,17 @@ void SmallAsteroid::Draw()
 
 void SmallAsteroid::OnOverlap(Collidable* other)
 {
-	if (other->GetCollidableType() == BulletType)
+	switch (other->GetCollidableType())
 	{
+	case EnemyBulletType: case EnemyType:
 		SetDisabled(true);
+		break;
+	case PlayerBulletType:
+        SetDisabled(true);
+		//ScoreManager::GetInstance().AddPoints(200);
+		break;
+	default:
+        break;
 	}
 }
 

@@ -1,12 +1,11 @@
 ﻿#pragma once
-#include <stdbool.h>
 
 #include "AxisAlignedBoundingBox.h"
 #include "Entity.h"
 
 enum CollidableType
 {
-	BigAsteroidType, MediumAsteroidType, SmallAsteroidType, BulletType, EnemyType, PlayerType
+	BigAsteroidType, MediumAsteroidType, SmallAsteroidType, PlayerBulletType, EnemyBulletType, EnemyType, SuicidalEnemyType, PlayerType
 };
 
 class Collidable : virtual public Entity
