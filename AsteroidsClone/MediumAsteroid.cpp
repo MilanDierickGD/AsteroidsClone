@@ -59,11 +59,16 @@ void MediumAsteroid::Split()
                                                     GetEntityPosition());
 	ObjectManager::GetInstance().AddCollidable(smallAsteroid1);
 	ObjectManager::GetInstance().AddCollidable(smallAsteroid2);
+
+	for	(size_t counter = 0; counter < 25; ++counter)
+	{
+		ObjectManager::GetInstance().AddParticle(new Particle(GetEntityPosition() + GetCollider2D().halfSize, Vector2D<double>(std::rand() % 75, std::rand() % 75)));
+	}
 }
 
 void MediumAsteroid::SpawnAsteroid(const Vector2D<double> parentAsteroidPosition)
 {
 	SetEntityPosition(parentAsteroidPosition);
 	GetCollider2D().center = parentAsteroidPosition;
-	SetObjectMovement(Vector2D<double>(std::rand() % 200 - 100, std::rand() % 200 - 100));
+	SetObjectMovement(Vector2D<double>(std::rand() % 300 - 150, std::rand() % 300 - 150));
 }

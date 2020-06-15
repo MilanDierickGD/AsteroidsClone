@@ -77,10 +77,17 @@ void GameManager::Draw() const
 
 void GameManager::AddScore(const int amount)
 {
+	const int temp = m_PlayerLivesScore;
+	m_PlayerLivesScore += amount;
+	m_PlayerLivesScore = m_PlayerLivesScore % 10000;
+	if (m_PlayerLivesScore < temp)
+	{
+		ObjectManager::GetInstance().GetPlayer().AddLife();
+	}
 	m_Score += amount;
 }
 
-GameManager::GameManager(): m_CurrentGameState(Menu), m_PreviousGameState(Menu), m_Score(0)
+GameManager::GameManager(): m_CurrentGameState(Menu), m_PreviousGameState(Menu), m_Score(0), m_PlayerLivesScore(0)
 {
 }
 

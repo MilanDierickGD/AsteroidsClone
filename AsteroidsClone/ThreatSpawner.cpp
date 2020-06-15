@@ -114,7 +114,7 @@ void ThreatSpawner::TrySpawnNewWave()
 	
 	if (elapsedSeconds > 5)
 	{
-		const size_t maximumAsteroidsCount = std::rand() % 6 + 2;
+		const size_t maximumAsteroidsCount = std::rand() % 6 + 4;
 	
 		for (size_t counter = 0; counter < maximumAsteroidsCount; ++counter)
 		{

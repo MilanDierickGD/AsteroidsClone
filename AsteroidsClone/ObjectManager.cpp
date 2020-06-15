@@ -38,6 +38,14 @@ void ObjectManager::PurgeDisabledCollidables()
                                                                         }), std::end(m_Collidables));
 }
 
+void ObjectManager::PurgeDisabledParticles()
+{
+	m_Particles.erase(std::remove_if(std::begin(m_Particles), std::end(m_Particles), [](Particle* particle)
+	{
+		return particle->IsDisabled();
+	}), std::end(m_Particles));
+}
+
 ObjectManager& ObjectManager::GetInstance()
 {
 	static ObjectManager instance;
@@ -67,9 +75,15 @@ void ObjectManager::Update(const float deltaTime)
 		m_Collidables[counter]->Update(deltaTime);
 	}
 
+	for (size_t counter = 0; counter < m_Particles.size(); ++counter)
+	{
+		m_Particles[counter]->Update(deltaTime);
+	}
+	
 	CheckAllForBounds();
 	CheckAllCollisions();
 	PurgeDisabledCollidables();
+	PurgeDisabledParticles();
 }
 
 void ObjectManager::Draw()
@@ -79,6 +93,11 @@ void ObjectManager::Draw()
 	for (std::vector<Collidable*>::value_type collidable : m_Collidables)
 	{
 		collidable->Draw();
+	}
+
+	for (std::vector<Particle*>::value_type particle: m_Particles)
+	{
+		particle->Draw();
 	}
 }
 
@@ -135,6 +154,16 @@ void ObjectManager::CheckAllForBounds()
 void ObjectManager::AddCollidable(Collidable* collidable)
 {
 	m_Collidables.push_back(std::move(collidable));
+}
+
+void ObjectManager::AddParticle(Particle* particle)
+{
+	m_Particles.push_back(std::move(particle));
+}
+
+void ObjectManager::PurgeAllParticles()
+{
+	m_Particles.erase(std::begin(m_Particles), std::end(m_Particles));
 }
 
 Player& ObjectManager::GetPlayer()

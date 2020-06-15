@@ -35,10 +35,10 @@ void SmallAsteroid::OnOverlap(Collidable* other)
 	switch (other->GetCollidableType())
 	{
 	case EnemyBulletType: case EnemyType:
-		SetDisabled(true);
+		Destroy();
 		break;
 	case PlayerBulletType:
-        SetDisabled(true);
+		Destroy();
 		GameManager::GetInstance().AddScore(100);
 		break;
 	default:
@@ -46,9 +46,19 @@ void SmallAsteroid::OnOverlap(Collidable* other)
 	}
 }
 
-void SmallAsteroid::SpawnAsteroid(Vector2D<double> parentAsteroidPosition)
+void SmallAsteroid::SpawnAsteroid(const Vector2D<double> parentAsteroidPosition)
 {
 	SetEntityPosition(parentAsteroidPosition);
 	GetCollider2D().center = parentAsteroidPosition;
-	SetObjectMovement(Vector2D<double>(std::rand() % 200 - 100, std::rand() % 200 - 100));
+	SetObjectMovement(Vector2D<double>(std::rand() % 600 - 300, std::rand() % 600 - 300));
+}
+
+void SmallAsteroid::Destroy()
+{
+	SetDisabled(true);
+	
+	for	(size_t counter = 0; counter < 15; ++counter)
+	{
+		ObjectManager::GetInstance().AddParticle(new Particle(GetEntityPosition() + GetCollider2D().halfSize, Vector2D<double>(std::rand() % 50, std::rand() % 50)));
+	}
 }

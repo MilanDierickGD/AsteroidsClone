@@ -1,5 +1,7 @@
 ﻿#include "pch.h"
 #include "Player.h"
+
+#include <algorithm>
 #include <iostream>
 #include <memory>
 #include "EnemyBullet.h"
@@ -33,14 +35,14 @@ void Player::Update(const float deltaTime)
 {
 	const UINT8 *state = SDL_GetKeyboardState(nullptr);
 
-	if (state[SDL_SCANCODE_A])
+	if (state[SDL_SCANCODE_LEFT])
 	{
-		m_Rotation += 200.0 * deltaTime;
+		m_Rotation += 250.0 * deltaTime;
 	}
 
-	if (state[SDL_SCANCODE_D])
+	if (state[SDL_SCANCODE_RIGHT])
 	{
-		m_Rotation -= 200.0 * deltaTime;
+		m_Rotation -= 250.0 * deltaTime;
 	}
 
 	if (m_Rotation >= 360 || m_Rotation <= -360)
@@ -49,40 +51,40 @@ void Player::Update(const float deltaTime)
 	}
 
 	
-	if (state[SDL_SCANCODE_W])
+	if (state[SDL_SCANCODE_UP])
 	{
 		const double radians = m_Rotation * M_PI / 180;
-		const double xRotated = 400.0 * deltaTime * std::cos(radians) - 0.0 * std::sin(radians);
-		const double yRotated = 400.0 * deltaTime * std::sin(radians) + 0.0 * std::cos(radians);
+		const double xRotated = 500.0 * deltaTime * std::cos(radians) - 0.0 * std::sin(radians);
+		const double yRotated = 500.0 * deltaTime * std::sin(radians) + 0.0 * std::cos(radians);
 		ApplyForce(Vector2D<double>(xRotated, yRotated));
 	}
 
-	if (state[SDL_SCANCODE_S])
+	if (state[SDL_SCANCODE_DOWN])
 	{
 		const double radians = m_Rotation * M_PI / 180;
-		const double xRotated = -400.0 * deltaTime * std::cos(radians) - 0.0 * std::sin(radians);
-		const double yRotated = -400.0 * deltaTime * std::sin(radians) + 0.0 * std::sin(radians);
+		const double xRotated = -500.0 * deltaTime * std::cos(radians) - 0.0 * std::sin(radians);
+		const double yRotated = -500.0 * deltaTime * std::sin(radians) + 0.0 * std::sin(radians);
 		ApplyForce(Vector2D<double>(xRotated, yRotated));
 	}
 	
 	UpdatePhysics(deltaTime);
 	GetCollider2D().center = GetEntityPosition();
 
-	if (GetObjectMovement().x > 300)
+	if (GetObjectMovement().x > 350)
 	{
-		GetObjectMovement().x = 300;
+		GetObjectMovement().x = 350;
 	}
-	else if (GetObjectMovement().x < -300)
+	else if (GetObjectMovement().x < -350)
 	{
-		GetObjectMovement().x = -300;
+		GetObjectMovement().x = -350;
 	}
-	if (GetObjectMovement().y > 300)
+	if (GetObjectMovement().y > 350)
 	{
-		GetObjectMovement().y = 300;
+		GetObjectMovement().y = 350;
 	}
-	else if (GetObjectMovement().y < -300)
+	else if (GetObjectMovement().y < -350)
 	{
-		GetObjectMovement().y = -300;
+		GetObjectMovement().y = -350;
 	}
 }
 
@@ -95,8 +97,6 @@ void Player::Draw()
         static_cast<float>(-GetCollider2D().halfSize.x), static_cast<float>(-GetCollider2D().halfSize.y)
     });
 	glPopMatrix();
-
-	utils::DrawRect(Point2f(static_cast<float>(GetEntityPosition().x), static_cast<float>(GetEntityPosition().y)), m_PlayerTexture.GetWidth(), m_PlayerTexture.GetHeight(), 1.0f);
 }
 
 void Player::ProcessKeyDownEvent(const SDL_KeyboardEvent& e)
@@ -139,9 +139,26 @@ int Player::GetRemainingLives() const
 	return m_RemainingLives;
 }
 
+void Player::AddLife()
+{
+	++m_RemainingLives;
+}
+
 void Player::SpawnBullet()
 {
-	ObjectManager::GetInstance().AddCollidable(new PlayerBullet("Resources/PlayerBulletTexture.png", GetEntityPosition() + GetCollider2D().halfSize, m_Rotation));
+	int counter = 0;
+	std::for_each(std::begin(ObjectManager::GetInstance().GetCollidables()), std::end(ObjectManager::GetInstance().GetCollidables()), [&counter](Collidable* collidable)
+	{
+		if (collidable->GetCollidableType() == PlayerBulletType)
+		{
+			++counter;
+		}
+	});
+
+	if (counter < 4)
+	{
+		ObjectManager::GetInstance().AddCollidable(new PlayerBullet("Resources/PlayerBulletTexture.png", GetEntityPosition() + GetCollider2D().halfSize, m_Rotation));
+	}
 }
 
 void Player::Die()
@@ -152,6 +169,7 @@ void Player::Die()
 	}
 
 	ThreatSpawner::GetInstance().ResetThreats();
+	ObjectManager::GetInstance().PurgeAllParticles();
 	GetEntityPosition().x = 1280.0 / 2 - GetCollider2D().halfSize.x;
 	GetEntityPosition().y = 800.0 / 2 - GetCollider2D().halfSize.y;
 	m_Rotation = 0;

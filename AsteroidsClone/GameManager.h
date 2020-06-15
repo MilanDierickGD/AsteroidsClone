@@ -27,6 +27,7 @@ private:
 	GameState m_CurrentGameState;
 	GameState m_PreviousGameState;
 	int m_Score;
+	int m_PlayerLivesScore;
 	
 	GameManager();
 	~GameManager();

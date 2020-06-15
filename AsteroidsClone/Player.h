@@ -27,6 +27,7 @@ public:
 	void Reset();
 	
 	int GetRemainingLives() const;
+	void AddLife();
 
 private:
 	Texture m_PlayerTexture;

@@ -11,6 +11,7 @@ public:
 	void OnOverlap(Collidable* other) override;
 
 	void SpawnAsteroid(Vector2D<double> parentAsteroidPosition);
+	void Destroy();
 	
 private:
     Texture m_SmallAsteroidTexture;

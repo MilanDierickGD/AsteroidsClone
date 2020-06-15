@@ -51,13 +51,18 @@ void BigAsteroid::OnOverlap(Collidable* other)
 }
 
 void BigAsteroid::Split()
-{
+{	
 	MediumAsteroid* mediumAsteroid1 = new MediumAsteroid("Resources/MediumAsteroidTexture.png",
 													GetEntityPosition());
 	MediumAsteroid* mediumAsteroid2 = new MediumAsteroid("Resources/MediumAsteroidTexture.png",
 													GetEntityPosition());
 	ObjectManager::GetInstance().AddCollidable(mediumAsteroid1);
 	ObjectManager::GetInstance().AddCollidable(mediumAsteroid2);
+
+	for	(size_t counter = 0; counter < 50; ++counter)
+	{
+		ObjectManager::GetInstance().AddParticle(new Particle(GetEntityPosition() + GetCollider2D().halfSize, Vector2D<double>(std::rand() % 100, std::rand() % 100)));
+	}
 }
 
 void BigAsteroid::SpawnAsteroid()
@@ -87,6 +92,6 @@ void BigAsteroid::SpawnAsteroid()
 			SetObjectMovement(Vector2D<double>(std::rand() % 100 - 50, std::rand() % 100 - 50));
 			break;
 		default:
-			break;
+			break;	
 	}
 }
