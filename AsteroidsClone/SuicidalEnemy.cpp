@@ -4,6 +4,8 @@
 #include <iostream>
 
 
+
+#include "GameManager.h"
 #include "ObjectManager.h"
 
 
@@ -59,7 +61,7 @@ void SuicidalEnemy::OnOverlap(Collidable* other)
 		break;
 	case PlayerBulletType:
         SetDisabled(true);
-		//ScoreManager::GetInstance().AddPoints(200);
+		GameManager::GetInstance().AddScore(200);
 		break;
 	default:
         break;

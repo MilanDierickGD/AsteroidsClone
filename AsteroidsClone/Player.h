@@ -11,7 +11,7 @@ class ObjectManager;
 class Player final : public Collidable, public PhysicsObject
 {
 public:
-	explicit Player(std::string imagePath, int remainingLives);
+	explicit Player(std::string imagePath, int startingLives);
 
 	void OnOverlap(Collidable* other) override;
 	void Update(float deltaTime) override;
@@ -23,10 +23,15 @@ public:
 	void ProcessMouseMotionEvent(const SDL_MouseMotionEvent& e);
 	void ProcessMouseDownEvent(const SDL_MouseButtonEvent& e);
 	void ProcessMouseUpEvent(const SDL_MouseButtonEvent& e);
+
+	void Reset();
 	
+	int GetRemainingLives() const;
+
 private:
 	Texture m_PlayerTexture;
 	double m_Rotation;
+	int m_StartingLives;
 	int m_RemainingLives;
 
 	void SpawnBullet();

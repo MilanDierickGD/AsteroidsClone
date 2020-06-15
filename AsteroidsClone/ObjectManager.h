@@ -13,7 +13,8 @@ public:
 	ObjectManager& operator=(ObjectManager&& other) noexcept = delete;
 	
 	static ObjectManager& GetInstance();
-	
+
+	void Initialize();
 	void Update(float deltaTime);
 	void Draw();
 	void CheckAllCollisions();

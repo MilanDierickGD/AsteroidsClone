@@ -37,7 +37,7 @@ void EnemyBullet::Draw()
 
 void EnemyBullet::OnOverlap(Collidable* other)
 {
-	if (other->GetCollidableType() == PlayerBulletType && other-> GetCollidableType() == EnemyBulletType)
+	if (other->GetCollidableType() != PlayerBulletType || other-> GetCollidableType() != EnemyBulletType)
 	{
 		SetDisabled(true);
 	}

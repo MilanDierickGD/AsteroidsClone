@@ -3,6 +3,9 @@
 
 #include <memory>
 
+
+#include "GameManager.h"
+#include "InterfaceManager.h"
 #include "ThreatSpawner.h"
 
 Game::Game( const Window& window ) 
@@ -26,14 +29,13 @@ void Game::Cleanup( )
 
 void Game::Update(const float elapsedSec )
 {
-	ObjectManager::GetInstance().Update(elapsedSec);
-	ThreatSpawner::GetInstance().Update();
+	GameManager::GetInstance().Update(elapsedSec);
 }
 
 void Game::Draw( ) const
 {
 	ClearBackground( );
-	ObjectManager::GetInstance().Draw();
+	GameManager::GetInstance().Draw();
 }
 
 void Game::ProcessKeyDownEvent( const SDL_KeyboardEvent & e )
@@ -53,7 +55,14 @@ void Game::ProcessMouseMotionEvent( const SDL_MouseMotionEvent& e )
 
 void Game::ProcessMouseDownEvent( const SDL_MouseButtonEvent& e )
 {
-	ObjectManager::GetInstance().GetPlayer().ProcessMouseDownEvent(e);
+	if (GameManager::GetInstance().GetGameState() == Playing)
+	{
+		ObjectManager::GetInstance().GetPlayer().ProcessMouseDownEvent(e);
+	}
+	else
+	{
+		InterfaceManager::GetInstance().ProcessMouseClickEvent(Vector2D<float>(e.x, 800 - e.y));
+	}
 }
 
 void Game::ProcessMouseUpEvent( const SDL_MouseButtonEvent& e )

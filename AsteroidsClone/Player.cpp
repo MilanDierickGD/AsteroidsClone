@@ -1,20 +1,16 @@
 ﻿#include "pch.h"
 #include "Player.h"
-
 #include <iostream>
-
-#include "EnemyBullet.h"
-#include "ObjectManager.h"
-
 #include <memory>
-
-
+#include "EnemyBullet.h"
+#include "GameManager.h"
+#include "ObjectManager.h"
 #include "PlayerBullet.h"
 #include "ThreatSpawner.h"
 #include "utils.h"
 
-Player::Player(const std::string imagePath, const int remainingLives):
-	m_PlayerTexture(Texture(imagePath)), m_RemainingLives(remainingLives)
+Player::Player(const std::string imagePath, const int startingLives):
+	m_PlayerTexture(Texture(imagePath)), m_StartingLives(startingLives),m_RemainingLives(startingLives)
 {
 	SetCollider2D(AxisAlignedBoundingBox(Vector2D<double>(0.0, 0.0),
 										Vector2D<double>(m_PlayerTexture.GetWidth() / 2,
@@ -128,16 +124,31 @@ void Player::ProcessMouseUpEvent(const SDL_MouseButtonEvent& e)
 {
 }
 
+void Player::Reset()
+{
+	ThreatSpawner::GetInstance().ResetThreats();
+	GetEntityPosition().x = 1280.0 / 2 - GetCollider2D().halfSize.x;
+	GetEntityPosition().y = 800.0 / 2 - GetCollider2D().halfSize.y;
+	m_Rotation = 0;
+	GetObjectMovement().Zero();
+	m_RemainingLives = m_StartingLives;
+}
+
+int Player::GetRemainingLives() const
+{
+	return m_RemainingLives;
+}
+
 void Player::SpawnBullet()
 {
 	ObjectManager::GetInstance().AddCollidable(new PlayerBullet("Resources/PlayerBulletTexture.png", GetEntityPosition() + GetCollider2D().halfSize, m_Rotation));
 }
 
 void Player::Die()
-{
+{		
 	if (--m_RemainingLives == 0)
 	{
-		//GameOver();
+		GameManager::GetInstance().SetGameState(GameOver);
 	}
 
 	ThreatSpawner::GetInstance().ResetThreats();

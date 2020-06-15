@@ -3,6 +3,7 @@
 #include "BigAsteroid.h"
 
 #include <algorithm>
+#include <iostream>
 #include <iterator>
 
 ObjectManager::ObjectManager() : m_Player(Player("Resources/PlayerTexture.png", 3))
@@ -41,6 +42,15 @@ ObjectManager& ObjectManager::GetInstance()
 {
 	static ObjectManager instance;
 	return instance;
+}
+
+void ObjectManager::Initialize()
+{
+	// We might be resetting from a previous game state, so we need to make sure our data is reset
+
+	m_Player.Reset();
+
+	m_Collidables.erase(std::begin(m_Collidables), std::end(m_Collidables));
 }
 
 void ObjectManager::Update(const float deltaTime)

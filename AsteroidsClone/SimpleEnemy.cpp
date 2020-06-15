@@ -6,6 +6,7 @@
 
 
 #include "EnemyBullet.h"
+#include "GameManager.h"
 #include "ObjectManager.h"
 
 SimpleEnemy::SimpleEnemy(const std::string imagePath) : m_SimpleEnemyTexture(Texture(imagePath)),
@@ -44,7 +45,7 @@ void SimpleEnemy::OnOverlap(Collidable* other)
 		break;
 	case PlayerBulletType:
 		SetDisabled(true);
-		//ScoreManager::GetInstance().AddPoints(200);
+		GameManager::GetInstance().AddScore(1000);
 		break;
 	default:
 		break;

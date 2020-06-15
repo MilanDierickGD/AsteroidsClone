@@ -12,22 +12,29 @@ public:
 
 	static InterfaceManager& GetInstance();
 
-	void ProcessMouseClickEvent(Vector2D<float> mousePosition);
+	void ProcessMouseClickEvent(Vector2D<float> mousePosition) const;
 	
-	void Draw();
-	void DrawMenu();
-	void DrawSettings();
-	void DrawStats();
-	void DrawGameOver();
+	void Draw() const;
 	
 private:
 	Texture m_TitleText;
-	Texture m_StartText;
-	Texture m_OptionsText;
+	Texture m_StartButtonText;
+	Texture m_SettingsButtonText;
 	Texture m_GameOverText;
-	Texture m_TryAgainText;
-	Texture m_BackText;
+	Texture m_TryAgainButtonText;
+	Texture m_BackButtonText;
+	Texture m_PlayerTexture;
 	
 	InterfaceManager();
 	~InterfaceManager();
+
+	void ProcessMouseClickEventForMenu(Vector2D<float> mousePosition) const;
+	void ProcessMouseClickEventForSettings(Vector2D<float> mousePosition);
+	void ProcessMouseClickEventForStats(Vector2D<float> mousePosition);
+	void ProcessMouseClickEventForGameOver(Vector2D<float> mousePosition) const;
+	
+	void DrawMenu() const;
+	void DrawSettings() const;
+	void DrawStats() const;
+	void DrawGameOver() const;
 };

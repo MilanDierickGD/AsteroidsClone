@@ -6,12 +6,25 @@
 
 #include <algorithm>
 
+
+#include "GameManager.h"
 #include "SuicidalEnemy.h"
 
 ThreatSpawner& ThreatSpawner::GetInstance()
 {
 	static ThreatSpawner instance;
 	return instance;
+}
+
+void ThreatSpawner::Initialize()
+{
+	m_StaticThreats = 0;
+	m_DynamicThreats = 0;
+
+	m_WaveSpawnCooldown = std::chrono::steady_clock::now();
+	m_EnemySpawningTimer = std::chrono::steady_clock::now();
+
+	m_SpawningNewWave = false;
 }
 
 void ThreatSpawner::Update()
@@ -25,6 +38,9 @@ void ThreatSpawner::ResetThreats()
 {
 	m_StaticThreats = 0;
 	m_DynamicThreats = 0;
+
+	m_WaveSpawnCooldown = std::chrono::steady_clock::now();
+	m_EnemySpawningTimer = std::chrono::steady_clock::now();
 
 	TrySpawnNewWave();
 }
@@ -77,6 +93,10 @@ void ThreatSpawner::TrySpawnNewWave()
 {
 	if (m_StaticThreats != 0 || m_DynamicThreats != 0) return;
 
+	// To prevent ugly interactions between the player object and other management objects to immediately terminate the
+	// update cycle, we just do nothing if the player recently died, thus causing a game over state change during
+	// the update cycle
+	if (GameManager::GetInstance().GetGameState() != Playing) return;
 	if (!m_SpawningNewWave)
 	{
 		m_SpawningNewWave = true;

@@ -3,6 +3,8 @@
 
 #include <memory>
 
+
+#include "GameManager.h"
 #include "SmallAsteroid.h"
 
 MediumAsteroid::MediumAsteroid(const std::string imagePath,
@@ -42,7 +44,7 @@ void MediumAsteroid::OnOverlap(Collidable* other)
 	case PlayerBulletType:
 		Split();
         SetDisabled(true);
-		//ScoreManager::GetInstance().AddPoints(200);
+		GameManager::GetInstance().AddScore(50);
 		break;
 	default:
         break;

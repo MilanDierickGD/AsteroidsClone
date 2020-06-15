@@ -10,7 +10,8 @@ public:
 	ThreatSpawner& operator=(ThreatSpawner&& other) noexcept = delete;
 	
 	static ThreatSpawner& GetInstance();
-	
+
+	void Initialize();
 	void Update();
 	void ResetThreats();
 	

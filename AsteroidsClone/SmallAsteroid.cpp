@@ -1,6 +1,8 @@
 ﻿#include "pch.h"
 #include "SmallAsteroid.h"
 
+#include "GameManager.h"
+
 SmallAsteroid::SmallAsteroid(const std::string imagePath,
 							const Vector2D<double> parentAsteroidPosition)
 {
@@ -37,7 +39,7 @@ void SmallAsteroid::OnOverlap(Collidable* other)
 		break;
 	case PlayerBulletType:
         SetDisabled(true);
-		//ScoreManager::GetInstance().AddPoints(200);
+		GameManager::GetInstance().AddScore(100);
 		break;
 	default:
         break;

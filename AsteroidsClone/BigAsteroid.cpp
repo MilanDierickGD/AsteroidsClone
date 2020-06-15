@@ -3,6 +3,7 @@
 
 
 #include "Collidable.h"
+#include "GameManager.h"
 #include "MediumAsteroid.h"
 
 BigAsteroid::BigAsteroid(const std::string imagePath)
@@ -42,7 +43,7 @@ void BigAsteroid::OnOverlap(Collidable* other)
 	case PlayerBulletType:
 		Split();
         SetDisabled(true);
-		//ScoreManager::GetInstance().AddPoints(200);
+		GameManager::GetInstance().AddScore(20);
 		break;
 	default:
         break;
